@@ -40,7 +40,7 @@ jobs:
       - name: Make release
         run: make
       - name: Rename executable
-        run: mv build/TicTacToe build/TicTacToe-${{ github.runner_os }}
+        run: mv build/TicTacToe build/TicTacToe-"$(uname)"
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
