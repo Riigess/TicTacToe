@@ -61,37 +61,53 @@ void Game::moveTo() {
 
 int Game::checkForWinner() {
     bool diagonalOne = true;
-    bool diagonalOneIsPlayer = true;
+    std::string diagonalOnePiece = "";
     bool diagonalTwo = true;
-    bool diagonalTwoIsPlayer = true;
+    std::string diagonalTwoPiece = "";
     // Board is always initialized to have 9 spaces
     for(int i = 0; i < 3; i++) {
         //Check Horizontal
         if(gameBoard.getBoardAt((i*3)).getPiece().compare(gameBoard.getBoardAt((i*3) + 1).getPiece()) == 0) {
             if(gameBoard.getBoardAt((i*3)+1).getPiece().compare(gameBoard.getBoardAt((i*3)+2).getPiece()) == 0) {
-                return true;
+                if(gameBoard.getBoardAt(i).getPiece().compare("") == 0) {
+                    return false;
+                } else {
+                    std::cout << gameBoard.getBoardAt(i).getPiece() << " has won!" << std::endl;
+                    return true;
+                }
             }
         }
         //Check Verticals
         if(gameBoard.getBoardAt(i).getPiece().compare(gameBoard.getBoardAt(i+3).getPiece()) == 0) {
             if(gameBoard.getBoardAt(i+3).getPiece().compare(gameBoard.getBoardAt(i+6).getPiece()) == 0) {
-                return true;
+                if(gameBoard.getBoardAt(i).getPiece().compare("") == 0) {
+                    return false;
+                } else {
+                    std::cout << gameBoard.getBoardAt(i).getPiece() << " has won!" << std::endl;
+                    return true;
+                }
             }
         }
         //Check Diagonals
         if(i == 0) {
-            diagonalOneIsPlayer = gameBoard.getBoardAt((i*3) + i).isPlayer();
-            diagonalTwoIsPlayer = gameBoard.getBoardAt(((i*2) + 2)).isPlayer();
+            diagonalOnePiece = gameBoard.getBoardAt((i*3) + i).getPiece();
+            diagonalTwoPiece = gameBoard.getBoardAt(((i*2) + 2)).getPiece();
         } else {
-            if(gameBoard.getBoardAt((i*3) + i).isPlayer() != diagonalOneIsPlayer) {
-                diagonalOne = false;
+            if(gameBoard.getBoardAt((i*3) + i).getPiece().compare(diagonalOnePiece) == 0) {
+                if(gameBoard.getBoardAt((i*3) + 1).getPiece().compare("") == 0) {
+                    diagonalOne = false;
+                    std::cout << gameBoard.getBoardAt(i).getPiece() << " has won!" << std::endl;
+                }
             }
-            if(gameBoard.getBoardAt((i*2) + 2).isPlayer() != diagonalTwoIsPlayer) {
-                diagonalTwo = false;
+            if(gameBoard.getBoardAt((i*2) + 2).getPiece().compare(diagonalTwoPiece) == 0) {
+                if(gameBoard.getBoardAt((i*2) + 2).getPiece().compare("") == 0) {
+                    diagonalTwo = false;
+                    std::cout << gameBoard.getBoardAt(i).getPiece() << " has won!" << std::endl;
+                }
             }
         }
     }
-    return diagonalOne || diagonalTwo;
+    return !diagonalOne || !diagonalTwo;
 }
 
 bool Game::catsGame() {
@@ -127,6 +143,25 @@ void Game::playGame() {
         computersTurn();
         std::cout << std::endl;
     } while(checkForWinner() == 0 && !catsGame());
+
+    std::string gamePiece = "";
+    for(int i = 0; i < 9; i++) {
+        if(i % 3 == 0 && i != 0) {
+            std::cout << "\n--- --- ---";
+            std::cout << "\n ";
+        } else if(i > 0) {
+            std::cout << " | ";
+        } else {
+            std::cout << " ";
+        }
+        gamePiece = gameBoard.getBoardAt(i).getPiece();
+        if(gamePiece.compare("x") == 0 || gamePiece.compare("X") == 0 || gamePiece.compare("o") == 0 || gamePiece.compare("O") == 0) {
+            std::cout << gamePiece;
+        } else {
+            std::cout << " ";
+        }
+    }
+    std::cout << std::endl;
 
     do {
         temp = userInput("\nWould you like to play again? (Y/n)");
