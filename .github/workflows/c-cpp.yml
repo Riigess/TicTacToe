@@ -48,9 +48,9 @@ jobs:
           os_name: ${{ github.RUNNER_OS }}
         run:
           if [[ "$(gh release view $tag 2>&1)" == "release not found" ]]; then
-            echo "Release not found. Creating release."
-            gh release create "$tag" --repo="$GITHUB_REPOSITORY" --title="${tag#v}" --generate-notes build/TicTacToe-$os_name
+            echo "Release not found. Creating release.";
+            gh release create "$tag" --repo="$GITHUB_REPOSITORY" --title="${tag#v}" --generate-notes build/TicTacToe-"$os_name";
           else
-            echo "Release found. Appending files to release."
-            gh release upload "$tag" build/TicTacToe-$os_name
+            echo "Release found. Appending files to release.";
+            gh release upload "$tag" build/TicTacToe-"$os_name";
           fi;
