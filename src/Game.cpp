@@ -67,14 +67,14 @@ int Game::checkForWinner() {
     // Board is always initialized to have 9 spaces
     for(int i = 0; i < 3; i++) {
         //Check Horizontal
-        if(gameBoard.getBoardAt((i*3)).compare(gameBoard.getBoardAt((i*3) + 1)) == 0) {
-            if(gameBoard.getBoardAt((i*3)+1).compare(gameBoard.getBoardAt((i*3)+2)) == 0) {
+        if(gameBoard.getBoardAt((i*3)).getPiece().compare(gameBoard.getBoardAt((i*3) + 1).getPiece()) == 0) {
+            if(gameBoard.getBoardAt((i*3)+1).getPiece().compare(gameBoard.getBoardAt((i*3)+2).getPiece()) == 0) {
                 return true;
             }
         }
         //Check Verticals
-        if(gameBoard.getBoardAt(i).compare(gameBoard.getBoardAt(i+3)) == 0) {
-            if(gameBoard.getBoardAt(i+3).compare(gameBoard.getBoardAt(i+6)) == 0) {
+        if(gameBoard.getBoardAt(i).getPiece().compare(gameBoard.getBoardAt(i+3).getPiece()) == 0) {
+            if(gameBoard.getBoardAt(i+3).getPiece().compare(gameBoard.getBoardAt(i+6).getPiece()) == 0) {
                 return true;
             }
         }
