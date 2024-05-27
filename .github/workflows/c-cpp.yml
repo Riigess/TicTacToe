@@ -47,7 +47,7 @@ jobs:
           tag: ${{ github.ref_name }}
           RUNNER_OS: ${{ github.runner_os }}
         run:
-          echo "Configuring for $(RUNNER_OS) [$(uname)]."
+          echo "Configuring for $(RUNNER_OS) [$(uname)].";
           if [[ "$(gh release view $tag 2>&1)" == "release not found" ]]; then
             echo "Release not found. Creating release.";
             gh release create "$tag" --repo="$GITHUB_REPOSITORY" --title="${tag#v}" --generate-notes build/TicTacToe-"$(uname)";
