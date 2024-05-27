@@ -11,7 +11,30 @@ permissions:
 jobs:
   build:
     name: Release pushed tag
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+            name: "Ubuntu Latest",
+            os: ubuntu-latest,
+            artifact: "ubuntu.7z",
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            generators: "Ninja"
+          }
+          - {
+            name: "MacOS Latest",
+            os: macos-latest,
+            artifact: "mac.7z",
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            archiver: "7za a",
+            generators: "Ninja"
+          }
     steps:
       - uses: actions/checkout@v4
       - name: Make release
@@ -22,3 +45,4 @@ jobs:
           tag: ${{ github.ref_name }}
         run:
           gh release create "$tag" --repo="$GITHUB_REPOSITORY" --title="${tag#v}" --generate-notes build/TicTacToe
+    
